@@ -75,7 +75,7 @@ def task_list_for_action_keyboard(tasks, action_prefix="edit"):
     buttons = []
     for task in tasks:
         buttons.append(
-            [InlineKeyboardButton(text=f"#{task['id']} {task['name']}", callback_data=f"{action_prefix}_{task['id']}")]
+            [InlineKeyboardButton(text=f"{task['name']}", callback_data=f"{action_prefix}_{task['id']}")]
         )
     kb = InlineKeyboardMarkup(inline_keyboard=buttons)
     return kb

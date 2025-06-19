@@ -23,7 +23,7 @@ class ReminderScheduler:
             if task['custom_days'] == 'hourly':
                 self.scheduler.add_job(
                     self.send_reminder,
-                    trigger=CronTrigger(minute="*", hour="*"),
+                    trigger=CronTrigger(minute=0),
                     args=[task],
                     id=f"{job_id_prefix}_hourly"
                 )
@@ -90,3 +90,25 @@ class ReminderScheduler:
             await self.bot.send_message(task['user_id'], text)
         except Exception:
             pass
+
+    async def restore_tasks(self, db):
+        tasks = await db.get_all_tasks()
+        if not tasks:
+            return
+        for task in tasks:
+            from datetime import datetime, time
+            if isinstance(task.get('deadline'), str):
+                try:
+                    task['deadline'] = datetime.strptime(task['deadline'], "%d.%m.%Y %H:%M")
+                except Exception:
+                    try:
+                        task['deadline'] = datetime.strptime(task['deadline'], "%Y-%m-%d %H:%M:%S")
+                    except Exception:
+                        task['deadline'] = None
+            if isinstance(task.get('custom_time'), str):
+                try:
+                    h, m = map(int, task['custom_time'].split(':')[:2])
+                    task['custom_time'] = time(hour=h, minute=m)
+                except Exception:
+                    task['custom_time'] = None
+            self.schedule_task(task)

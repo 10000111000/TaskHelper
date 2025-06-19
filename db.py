@@ -73,3 +73,9 @@ class Database:
         async with self.pool.acquire() as conn:
             async with conn.cursor() as cur:
                 await cur.execute("DELETE FROM tasks WHERE id=%s AND user_id=%s", (task_id, user_id))
+
+    async def get_all_tasks(self):
+        async with self.pool.acquire() as conn:
+            async with conn.cursor(aiomysql.DictCursor) as cur:
+                await cur.execute("SELECT * FROM tasks")
+                return await cur.fetchall()

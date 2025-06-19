@@ -24,6 +24,8 @@ async def main():
     task_handlers.db = db
     task_handlers.scheduler = scheduler
 
+    await scheduler.restore_tasks(db)
+
     dp.include_router(common_handlers.router)
     dp.include_router(task_handlers.router)
     dp.include_router(faq_handlers.router)

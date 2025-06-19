@@ -200,7 +200,7 @@ async def edit_task_select(callback: CallbackQuery, state: FSMContext):
     await state.update_data(current_task_id=task_id, editing_task_data=task)
     await state.set_state(EditTaskStates.waiting_for_field_selection)
     await callback.message.answer(f"Что хотите отредактировать в задаче #{task_id} \"{task['name']}\"?\n\nТекущие данные:\n{format_task(task)}",
-                                  reply_markup=edit_task_options_keyboard())
+                                  reply_markup=edit_task_options_keyboard(), parse_mode="HTML")
 
 @router.callback_query(EditTaskStates.waiting_for_field_selection, F.data.startswith("edit_field_"))
 async def edit_field_select(callback: CallbackQuery, state: FSMContext):
