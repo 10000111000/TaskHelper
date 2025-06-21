@@ -47,33 +47,33 @@ def format_time(time_obj):
     return time_obj.strftime("%H:%M")
 
 def format_task(task):
-    lines = [f"📌 <b>{task['name']}</b>"]
-    if task['description']:
+    lines = [f"📌 <b>{task.get('name', 'Без названия')}</b>"]
+    if task.get('description'):
         lines.append(f"📝 {task['description']}")
-    if task['deadline']:
+    if task.get('deadline'):
         lines.append(f"⏳ Дедлайн: <i>{format_date(task['deadline'])}</i>")
     reminder_type_map = {
         "standard": "Стандартное",
         "custom": "Кастомное"
     }
-    reminder_type_text = reminder_type_map.get(task['reminder_type'], task['reminder_type'])
+    reminder_type_text = reminder_type_map.get(task.get('reminder_type'), task.get('reminder_type'))
     lines.append(f"🔔 Тип напоминания: <b>{reminder_type_text}</b>")
 
-    if task['reminder_type'] == 'standard':
+    if task.get('reminder_type') == 'standard':
         reminder_map = {
             'hourly': 'Каждый час',
             'daily': 'Каждый день',
             'weekly': 'Каждую неделю',
             'none': 'Без напоминания'
         }
-        rem_text = reminder_map.get(task['custom_days'], 'Не задано')
+        rem_text = reminder_map.get(task.get('custom_days'), 'Не задано')
         lines.append(f"⏰ Напоминание: <i>{rem_text}</i>")
-    elif task['reminder_type'] == 'custom':
-        if task['custom_time']:
+    elif task.get('reminder_type') == 'custom':
+        if task.get('custom_time'):
             lines.append(f"⏰ Время: <i>{format_time(task['custom_time'])}</i>")
-        if task['custom_days']:
+        if task.get('custom_days'):
             lines.append(f"📅 Дни недели: <i>{task['custom_days']}</i>")
-        if task['custom_dates']:
+        if task.get('custom_dates'):
             dates = []
             for d in task['custom_dates'].split(','):
                 try:
