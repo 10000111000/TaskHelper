@@ -9,6 +9,7 @@ def main_menu():
             [KeyboardButton(text="Добавить задачу")],
             [KeyboardButton(text="Список задач")],
             [KeyboardButton(text="Редактировать задачу"), KeyboardButton(text="Удалить задачу")],
+            [KeyboardButton(text="Добавить задачу c помощью GigaChat (возможны ошибки)")],
             [KeyboardButton(text=texts.BUTTON_FAQ)]
         ],
         resize_keyboard=True
@@ -93,3 +94,11 @@ def edit_task_options_keyboard():
     ]
     kb = InlineKeyboardMarkup(inline_keyboard=buttons)
     return kb
+
+def confirm_keyboard():
+    return ReplyKeyboardMarkup(
+        keyboard=[
+            [KeyboardButton(text="Подтвердить"), KeyboardButton(text="Отменить")]
+        ],
+        resize_keyboard=True
+    )

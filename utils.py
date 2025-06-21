@@ -1,7 +1,7 @@
 from datetime import datetime, time, timedelta
 
 def validate_date(date_text: str):
-    if not date_text.strip():
+    if date_text is None or not date_text.strip():
         return None
     try:
         return datetime.strptime(date_text.strip(), "%d.%m.%y").date()
@@ -9,18 +9,26 @@ def validate_date(date_text: str):
         return None
 
 def validate_time(time_text: str):
+    if time_text is None:
+        return None
     try:
         return datetime.strptime(time_text.strip(), "%H:%M").time()
     except ValueError:
         return None
-
 def get_current_time():
     return datetime.now().time()
 
 def format_date(date_obj):
     if not date_obj:
-        return ""
-    return date_obj.strftime("%d.%m.%y")
+        return "не указано"
+    if isinstance(date_obj, str):
+        try:
+            date_obj = datetime.strptime(date_obj, "%Y-%m-%d")
+        except Exception:
+            return date_obj
+    return date_obj.strftime("%d.%m.%Y")
+
+
 
 def format_time(time_obj):
     if not time_obj:
@@ -30,6 +38,12 @@ def format_time(time_obj):
         hours = total_seconds // 3600
         minutes = (total_seconds % 3600) // 60
         return time(hour=hours, minute=minutes).strftime("%H:%M")
+    if isinstance(time_obj, str):
+        try:
+            parsed_time = datetime.strptime(time_obj.strip(), "%H:%M").time()
+            return parsed_time.strftime("%H:%M")
+        except Exception:
+            return time_obj
     return time_obj.strftime("%H:%M")
 
 def format_task(task):

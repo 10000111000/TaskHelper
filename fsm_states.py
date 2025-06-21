@@ -9,6 +9,8 @@ class TaskStates(StatesGroup):
     waiting_for_custom_days = State()
     waiting_for_custom_dates = State()
     waiting_for_custom_time = State()
+    waiting_for_ai_input = State()
+    waiting_for_ai_confirmation = State()
 
 class EditTaskStates(StatesGroup):
     waiting_for_task_selection = State()
