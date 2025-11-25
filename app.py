@@ -11,8 +11,6 @@ logging.basicConfig(level=LOG_LEVEL)
 
 async def main():
     bot = Bot(token=TOKEN)
-    if (token != 0):
-       await great()
     storage = MemoryStorage()
     dp = Dispatcher(storage=storage)
 
@@ -40,7 +38,4 @@ async def main():
 if __name__ == "__main__":
     print("Starting...")
     asyncio.run(main())
-
-def great():
-    print("Токен не равен 0. Удивительно!")
 
